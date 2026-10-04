@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>रुपये की देसी दास्तान</title>
+<meta name="description" content="₹3.30 से ₹96.33 तक — 1947 से अक्टूबर 2026 तक भारतीय रुपये बनाम अमेरिकी डॉलर की इंटरैक्टिव, एनिमेटेड कहानी।" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f5c451'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='38' font-family='sans-serif' fill='%23111'%3E₹%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+:root {
+  --bg: #0a0c13;
+  --bg-2: #11141f;
+  --surface: rgba(20, 24, 38, 0.78);
+  --surface-solid: #151a29;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #eef0f7;
+  --text-2: #c3c9d8;
+  --muted: #8d96ad;
+  --grid: rgba(255, 255, 255, 0.07);
+
+  --saffron: #ff9933;
+  --india-green: #1fa64a;
+  --navy: #1b2a8a;
+
+  --fall: #ff4d2e;
+  --fall-2: #ff9a3c;
+  --rise: #22c55e;
+  --gold: #f5c451;
+  --start: #f5c451;
+
+  --shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
+  --radius: 22px;
+  --amb-1: rgba(245, 196, 81, 0.10);
+  --amb-2: rgba(255, 153, 51, 0.06);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f6f2ea;
+    --bg-2: #efe9dd;
+    --surface: rgba(255, 255, 255, 0.82);
+    --surface-solid: #ffffff;
+    --border: rgba(30, 25, 10, 0.10);
+    --border-strong: rgba(30, 25, 10, 0.20);
+    --text: #1b1a17;
+    --text-2: #3d3a33;
+    --muted: #6f6a5e;
+    --grid: rgba(30, 25, 10, 0.08);
+    --fall: #e0381a;
+    --fall-2: #e57a12;
+    --rise: #128a3e;
+    --gold: #b88a12;
+    --start: #b88a12;
+    --shadow: 0 30px 70px -35px rgba(60, 40, 0, 0.35);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f6f2ea;
+  --bg-2: #efe9dd;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-solid: #ffffff;
+  --border: rgba(30, 25, 10, 0.10);
+  --border-strong: rgba(30, 25, 10, 0.20);
+  --text: #1b1a17;
+  --text-2: #3d3a33;
+  --muted: #6f6a5e;
+  --grid: rgba(30, 25, 10, 0.08);
+  --fall: #e0381a;
+  --fall-2: #e57a12;
+  --rise: #128a3e;
+  --gold: #b88a12;
+  --start: #b88a12;
+  --shadow: 0 30px 70px -35px rgba(60, 40, 0, 0.35);
+  color-scheme: light;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Mukta", "Noto Sans Devanagari", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+  transition: background-color .5s ease, color .5s ease;
+}
+h1, h2, h3, h4 { font-family: "Baloo 2", "Mukta", system-ui, sans-serif; line-height: 1.25; margin: 0; }
+button { font: inherit; color: inherit; }
+a { color: inherit; }
+.wrap { width: min(1180px, 100% - 32px); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Ambient background glow that reacts to the active story */
+.ambient {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60vmax 50vmax at 15% 10%, var(--amb-1), transparent 60%),
+    radial-gradient(55vmax 45vmax at 90% 85%, var(--amb-2), transparent 60%),
+    var(--bg);
+  transition: background .9s ease;
+}
+body[data-tone="fall"]  { --amb-1: rgba(255, 77, 46, 0.16);  --amb-2: rgba(255, 154, 60, 0.10); }
+body[data-tone="crash"] { --amb-1: rgba(255, 50, 30, 0.24);  --amb-2: rgba(255, 120, 40, 0.14); }
+body[data-tone="rise"]  { --amb-1: rgba(34, 197, 94, 0.18);  --amb-2: rgba(245, 196, 81, 0.14); }
+body[data-tone="start"] { --amb-1: rgba(245, 196, 81, 0.14); --amb-2: rgba(31, 166, 74, 0.08); }
+
+/* Scroll progress */
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 60;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--saffron), #fff 50%, var(--india-green));
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  position: relative; min-height: 100svh; display: grid; place-items: center;
+  padding: 90px 0 60px; overflow: hidden; isolation: isolate;
+}
+.hero-floaters { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero-floaters span {
+  position: absolute; font-family: "Baloo 2", sans-serif; font-weight: 800;
+  opacity: .08; animation: floatUp linear infinite; color: var(--text);
+}
+@keyframes floatUp {
+  from { transform: translateY(110vh) rotate(0deg); }
+  to   { transform: translateY(-20vh) rotate(25deg); }
+}
+.topbar {
+  position: absolute; top: 18px; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-family: "Baloo 2"; font-weight: 700; color: var(--muted); font-size: 15px; }
+.brand-flag { display: inline-flex; flex-direction: column; width: 22px; height: 15px; border-radius: 3px; overflow: hidden; box-shadow: 0 0 0 1px var(--border); }
+.brand-flag i { flex: 1; }
+.theme-toggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(10px);
+  font-size: 14px; transition: transform .2s ease, border-color .2s;
+}
+.theme-toggle:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+
+.hero-inner { text-align: center; max-width: 980px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text-2);
+  animation: fadeUp .8s .1s both;
+}
+.hero h1 {
+  margin-top: 22px; font-size: clamp(34px, 6.4vw, 76px); font-weight: 800; letter-spacing: -0.5px;
+  animation: fadeUp .9s .2s both;
+}
+.hero h1 .grad {
+  background: linear-gradient(92deg, var(--saffron) 0%, var(--gold) 35%, var(--fall) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .sub {
+  margin: 18px auto 0; max-width: 760px; font-size: clamp(17px, 2.2vw, 21px); color: var(--text-2);
+  animation: fadeUp .9s .35s both;
+}
+.hero-meter {
+  margin: 38px auto 0; display: inline-flex; align-items: baseline; gap: 14px; flex-wrap: wrap; justify-content: center;
+  padding: 18px 30px; border-radius: 26px; background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow), 0 0 80px -30px var(--fall); backdrop-filter: blur(14px);
+  animation: fadeUp .9s .5s both;
+}
+.hero-meter .lbl { font-family: "Baloo 2"; font-size: clamp(20px, 3vw, 30px); color: var(--muted); font-weight: 600; }
+.hero-meter .val {
+  font-family: "Baloo 2"; font-size: clamp(46px, 9vw, 104px); font-weight: 800; line-height: 1;
+  font-variant-numeric: tabular-nums; color: var(--text); transition: color .4s, text-shadow .4s;
+}
+.hero-meter .val.hot { color: var(--fall); text-shadow: 0 0 40px rgba(255, 77, 46, .45); }
+.hero-meter .yr { font-size: 15px; color: var(--muted); width: 100%; text-align: center; margin-top: 4px; }
+
+.hero-stats { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 28px; animation: fadeUp .9s .65s both; }
+.hstat { padding: 12px 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); min-width: 140px; }
+.hstat b { display: block; font-family: "Baloo 2"; font-size: 26px; line-height: 1.1; }
+.hstat span { font-size: 14px; color: var(--muted); }
+
+.myth {
+  margin: 26px auto 0; max-width: 620px; display: flex; gap: 14px; align-items: center; text-align: left;
+  padding: 14px 18px; border-radius: 16px; border: 1px dashed var(--border-strong); background: var(--surface);
+  animation: fadeUp .9s .8s both;
+}
+.myth .x { flex: none; font-family: "Baloo 2"; font-weight: 800; font-size: 20px; position: relative; color: var(--muted); }
+.myth .x::after { content: ""; position: absolute; left: -4px; right: -4px; top: 52%; height: 3px; background: var(--fall); transform: rotate(-8deg); border-radius: 2px; animation: strike 1s 1.6s both; transform-origin: left; }
+@keyframes strike { from { transform: rotate(-8deg) scaleX(0); } to { transform: rotate(-8deg) scaleX(1); } }
+.myth p { margin: 0; font-size: 15px; color: var(--text-2); }
+
+.scroll-cue {
+  margin-top: 36px; display: inline-flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none;
+  color: var(--muted); font-size: 14px; animation: fadeUp .9s 1s both;
+}
+.scroll-cue .mouse { width: 24px; height: 38px; border-radius: 14px; border: 2px solid var(--muted); position: relative; }
+.scroll-cue .mouse::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--saffron); animation: wheel 1.6s infinite; }
+@keyframes wheel { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(12px); } }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* =========================================================
+   STICKY CONTROL BAR
+   ========================================================= */
+.controls {
+  position: sticky; top: 0; z-index: 50; padding: 12px 0 10px;
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+}
+.controls-row { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-btn {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border-strong);
+  background: var(--surface); font-weight: 600; font-size: 15px; color: var(--text-2);
+  transition: all .25s ease;
+}
+.filter-btn .cnt { font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--grid); color: var(--muted); }
+.filter-btn:hover { transform: translateY(-1px); color: var(--text); }
+.filter-btn[aria-pressed="true"] {
+  color: #1a1206; border-color: transparent;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  box-shadow: 0 8px 26px -10px var(--saffron);
+}
+.filter-btn[aria-pressed="true"] .cnt { background: rgba(0, 0, 0, .15); color: #1a1206; }
+.filter-btn[data-filter="political"][aria-pressed="true"] { background: linear-gradient(135deg, #ff9933, #ffcc66); }
+.filter-btn[data-filter="global"][aria-pressed="true"] { background: linear-gradient(135deg, #6ab7ff, #b7a2ff); box-shadow: 0 8px 26px -10px #6ab7ff; }
+
+.hud {
+  display: flex; align-items: center; gap: 10px; padding: 6px 14px 6px 10px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border); font-size: 14px; white-space: nowrap;
+  transition: box-shadow .5s, border-color .5s;
+}
+.hud .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--start); box-shadow: 0 0 12px var(--start); transition: background .4s, box-shadow .4s; }
+.hud b { font-family: "Baloo 2"; font-size: 17px; font-variant-numeric: tabular-nums; }
+.hud .hud-yr { color: var(--muted); }
+body[data-tone="fall"] .hud .dot, body[data-tone="crash"] .hud .dot { background: var(--fall); box-shadow: 0 0 14px var(--fall); }
+body[data-tone="rise"] .hud .dot { background: var(--rise); box-shadow: 0 0 14px var(--rise); }
+body[data-tone="crash"] .hud { border-color: color-mix(in srgb, var(--fall) 50%, transparent); }
+body[data-tone="rise"] .hud { border-color: color-mix(in srgb, var(--rise) 50%, transparent); }
+
+.year-rail {
+  display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+  -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent);
+}
+.year-rail::-webkit-scrollbar { display: none; }
+.year-chip {
+  flex: none; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted);
+  padding: 3px 12px; border-radius: 999px; font-size: 13px; font-family: "Baloo 2"; font-weight: 600;
+  transition: all .25s;
+}
+.year-chip:hover { color: var(--text); border-color: var(--border-strong); }
+.year-chip.active { color: var(--text); border-color: currentColor; }
+.year-chip.tone-fall.active, .year-chip.tone-crash.active { color: var(--fall); }
+.year-chip.tone-rise.active { color: var(--rise); }
+.year-chip.tone-start.active { color: var(--gold); }
+.year-chip[hidden] { display: none; }
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+.section { padding: 80px 0 30px; }
+.section-head { text-align: center; max-width: 720px; margin: 0 auto 36px; }
+.section-head .kicker { color: var(--saffron); font-weight: 700; letter-spacing: .5px; font-size: 14px; }
+.section-head h2 { font-size: clamp(28px, 4vw, 42px); margin-top: 6px; }
+.section-head p { color: var(--text-2); margin: 10px 0 0; }
+
+/* =========================================================
+   OVERVIEW CHART
+   ========================================================= */
+.chart-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px 22px 14px; box-shadow: var(--shadow); position: relative; backdrop-filter: blur(10px);
+}
+.chart-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: flex-start; margin-bottom: 8px; }
+.chart-title { font-family: "Baloo 2"; font-weight: 700; font-size: 19px; }
+.chart-note { font-size: 13px; color: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--text-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 2px var(--surface-solid); }
+.chart-svg-wrap { position: relative; width: 100%; }
+#chart { width: 100%; height: auto; display: block; overflow: visible; }
+#chart .gridline { stroke: var(--grid); stroke-width: 1; }
+#chart .axis-text { fill: var(--muted); font-size: 12px; font-family: "Mukta", sans-serif; }
+#chart .line { fill: none; stroke: var(--text-2); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+#chart .area { opacity: .9; }
+#chart .pt { stroke: var(--surface-solid); stroke-width: 2; transition: r .2s, opacity .3s; cursor: pointer; }
+#chart .pt.dim { opacity: .2; }
+#chart .pt-label { fill: var(--text); font-size: 12px; font-weight: 700; font-family: "Baloo 2", sans-serif; transition: opacity .3s; }
+#chart .pt-label.dim { opacity: .2; }
+#chart .hit { fill: transparent; cursor: pointer; }
+#chart .xhair { stroke: var(--border-strong); stroke-dasharray: 3 4; opacity: 0; transition: opacity .15s; }
+.tooltip {
+  position: absolute; pointer-events: none; z-index: 5; min-width: 180px; max-width: 240px;
+  background: var(--surface-solid); border: 1px solid var(--border-strong); border-radius: 12px;
+  padding: 10px 12px; font-size: 13px; box-shadow: var(--shadow); opacity: 0; transform: translate(-50%, -110%);
+  transition: opacity .15s;
+}
+.tooltip .t-yr { color: var(--muted); font-size: 12px; }
+.tooltip .t-val { font-family: "Baloo 2"; font-size: 20px; font-weight: 700; line-height: 1.2; }
+.tooltip .t-tag { display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; color: var(--text-2); }
+.tooltip .t-tag i { width: 8px; height: 8px; border-radius: 50%; }
+
+/* =========================================================
+   TIMELINE
+   ========================================================= */
+.timeline { position: relative; padding: 20px 0 40px; }
+.timeline::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px;
+  background: linear-gradient(180deg, var(--saffron), var(--border-strong) 15%, var(--border-strong) 85%, var(--india-green));
+  border-radius: 3px; opacity: .6;
+}
+.timeline-fill {
+  position: absolute; top: 0; left: 50%; width: 3px; margin-left: -1.5px; height: 0;
+  background: linear-gradient(180deg, var(--gold), var(--fall)); border-radius: 3px;
+  box-shadow: 0 0 18px var(--fall-2);
+}
+
+.stop {
+  position: relative; display: grid; grid-template-columns: 1fr 80px 1fr; align-items: start;
+  margin: 0 0 70px; transition: opacity .4s ease, transform .4s ease; scroll-margin-top: 130px;
+}
+.stop .card { grid-column: 1; grid-row: 1; }
+.stop .node { grid-column: 2; grid-row: 1; }
+.stop.side-right .card { grid-column: 3; }
+.stop.leaving { opacity: 0; transform: scale(.96); }
+.stop[hidden] { display: none; }
+
+.node { position: sticky; top: 170px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 22px; }
+.node-dot {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--surface-solid);
+  border: 3px solid var(--tone, var(--gold)); box-shadow: 0 0 0 6px color-mix(in srgb, var(--tone, var(--gold)) 18%, transparent);
+  transition: transform .4s, box-shadow .4s;
+}
+.stop.active .node-dot { transform: scale(1.25); box-shadow: 0 0 0 8px color-mix(in srgb, var(--tone) 25%, transparent), 0 0 30px var(--tone); }
+.node-year {
+  font-family: "Baloo 2"; font-weight: 800; font-size: 15px; color: var(--tone); padding: 2px 8px; border-radius: 8px;
+  background: var(--surface-solid); border: 1px solid var(--border); white-space: nowrap;
+}
+
+.tone-start { --tone: var(--start); --tone-2: #ffd27a; }
+.tone-fall  { --tone: var(--fall-2); --tone-2: var(--fall); }
+.tone-crash { --tone: var(--fall); --tone-2: #ff2a2a; }
+.tone-rise  { --tone: var(--rise); --tone-2: var(--gold); }
+
+.card {
+  position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 26px; box-shadow: var(--shadow); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  overflow: hidden; isolation: isolate;
+  opacity: 0; transform: translateX(-70px) rotate(-1deg);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1), box-shadow .6s, border-color .6s;
+}
+.stop.side-right .card { transform: translateX(70px) rotate(1deg); }
+.stop.in .card { opacity: 1; transform: none; }
+.card::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+  background: linear-gradient(90deg, var(--tone), var(--tone-2));
+}
+.card::after {
+  content: ""; position: absolute; z-index: -1; width: 320px; height: 320px; border-radius: 50%;
+  top: -160px; right: -120px; background: radial-gradient(circle, color-mix(in srgb, var(--tone) 28%, transparent), transparent 65%);
+  opacity: .7; transition: opacity .6s;
+}
+.stop.active .card {
+  border-color: color-mix(in srgb, var(--tone) 45%, transparent);
+  box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--tone) 30%, transparent), 0 0 70px -18px var(--tone);
+}
+.stop.active.tone-crash .card { animation: crashPulse 2.4s ease-in-out infinite; }
+.stop.active.tone-rise .card { animation: risePulse 3s ease-in-out infinite; }
+@keyframes crashPulse {
+  0%, 100% { box-shadow: var(--shadow), 0 0 0 1px rgba(255, 60, 40, .35), 0 0 60px -20px rgba(255, 60, 40, .7); }
+  50%      { box-shadow: var(--shadow), 0 0 0 1px rgba(255, 60, 40, .55), 0 0 100px -12px rgba(255, 90, 40, .9); }
+}
+@keyframes risePulse {
+  0%, 100% { box-shadow: var(--shadow), 0 0 0 1px rgba(34, 197, 94, .35), 0 0 60px -20px rgba(34, 197, 94, .6); }
+  50%      { box-shadow: var(--shadow), 0 0 0 1px rgba(245, 196, 81, .55), 0 0 100px -12px rgba(245, 196, 81, .75); }
+}
+
+.card-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+  padding: 3px 11px; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--text-2);
+}
+.chip.num { background: var(--tone); color: #120c02; border-color: transparent; }
+.chip.mood { color: var(--tone); border-color: color-mix(in srgb, var(--tone) 45%, transparent); background: color-mix(in srgb, var(--tone) 10%, transparent); }
+.chip.cat-political { color: #ffb366; border-color: rgba(255, 153, 51, .4); }
+.chip.cat-global { color: #8ec7ff; border-color: rgba(106, 183, 255, .4); }
+:root[data-theme="light"] .chip.cat-political { color: #b45d00; }
+:root[data-theme="light"] .chip.cat-global { color: #1f63b5; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .chip.cat-political { color: #b45d00; }
+  :root:not([data-theme="dark"]) .chip.cat-global { color: #1f63b5; }
+}
+
+.year-big {
+  font-family: "Baloo 2"; font-weight: 800; font-size: clamp(44px, 6vw, 66px); line-height: 1;
+  font-variant-numeric: tabular-nums; letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--text) 30%, var(--tone)); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.year-big small { font-size: .45em; color: var(--muted); -webkit-text-fill-color: var(--muted); font-weight: 700; letter-spacing: 0; }
+.card h3 { font-size: clamp(21px, 2.4vw, 26px); margin: 8px 0 18px; }
+
+.rate {
+  display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: center;
+  padding: 16px 18px; border-radius: 16px; margin-bottom: 18px;
+  background: color-mix(in srgb, var(--tone) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tone) 30%, transparent);
+}
+.rate-main { display: flex; align-items: baseline; gap: 8px; }
+.rate-main .usd { color: var(--muted); font-weight: 600; font-size: 15px; white-space: nowrap; }
+.rate-main .inr {
+  font-family: "Baloo 2"; font-weight: 800; font-size: clamp(34px, 4.6vw, 48px); line-height: 1;
+  color: var(--tone); font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 28px color-mix(in srgb, var(--tone) 50%, transparent);
+}
+.rate-main .inr.plus::after { content: "+"; font-size: .6em; vertical-align: super; }
+.rate-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; text-align: right; font-size: 14px; }
+.rate-side .from { color: var(--muted); }
+.rate-side .from s { text-decoration-color: var(--tone); text-decoration-thickness: 2px; }
+.delta {
+  display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px;
+  padding: 3px 10px; border-radius: 999px; color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent);
+}
+.delta svg { width: 14px; height: 14px; }
+.stop.in.tone-crash .rate-main .inr { animation: shake .6s 1.2s both; }
+@keyframes shake {
+  0%, 100% { transform: none; } 20% { transform: translateX(-6px) rotate(-2deg); } 40% { transform: translateX(5px) rotate(1deg); }
+  60% { transform: translateX(-3px); } 80% { transform: translateX(2px); }
+}
+.stop.in.tone-rise .rate-main .inr { animation: pop .7s 1.2s both; }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
+
+.media { display: grid; grid-template-columns: 150px 1fr; gap: 14px; margin-bottom: 18px; }
+.media.duo { grid-template-columns: 1fr; }
+.media.duo .portrait { max-width: 300px; }
+
+/* Portrait frame */
+.portrait {
+  position: relative; border-radius: 16px; padding: 7px;
+  background: linear-gradient(145deg, #d8b25a, #7a5a1a 40%, #e9cf85 60%, #8a6420);
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(255, 255, 255, .25);
+  transform: perspective(600px) rotateY(0deg); transition: transform .5s;
+}
+.card:hover .portrait { transform: perspective(600px) rotateY(-6deg); }
+.portrait-inner { border-radius: 10px; overflow: hidden; display: flex; background: #1b1610; }
+.portrait-inner svg { display: block; width: 100%; height: auto; flex: 1; min-width: 0; }
+.portrait-inner svg + svg { border-left: 2px solid rgba(233, 207, 133, .6); }
+.portrait.vintage .portrait-inner svg { filter: sepia(.55) contrast(1.05) saturate(.85); }
+.portrait.modern { background: linear-gradient(145deg, #5b7cfa, #1d2b6b 40%, #61d4ff 70%, #2a3c8f); }
+.nameplate {
+  margin-top: 7px; text-align: center; font-size: 12.5px; font-weight: 700; line-height: 1.3;
+  color: #2a1d05; background: linear-gradient(180deg, #f3dc97, #c99a3a); border-radius: 6px; padding: 4px 6px;
+}
+.portrait.modern .nameplate { color: #eaf2ff; background: linear-gradient(180deg, #33478f, #1b265c); }
+.portrait-note { position: absolute; top: 12px; left: 12px; font-size: 10px; padding: 1px 6px; border-radius: 6px; background: rgba(0, 0, 0, .55); color: #f3e7c6; letter-spacing: .3px; }
+
+/* Scene frame */
+.scene { margin: 0; align-self: center; min-width: 0; }
+.scene-box { border-radius: 16px; overflow: hidden; border: 1px solid var(--border-strong); background: #0d1020; aspect-ratio: 16 / 9; box-shadow: 0 14px 30px -16px rgba(0, 0, 0, .6); }
+.scene svg { display: block; width: 100%; height: 100%; }
+.scene figcaption { margin-top: 7px; font-size: 12.5px; color: var(--muted); display: flex; gap: 6px; align-items: baseline; }
+.scene figcaption::before { content: "📷"; font-size: 11px; }
+
+.story {
+  position: relative; margin: 0 0 18px; padding-left: 18px; color: var(--text-2); font-size: 16.5px;
+  border-left: 3px solid color-mix(in srgb, var(--tone) 55%, transparent);
+}
+.story::before { content: "“"; position: absolute; left: -6px; top: -26px; font-family: "Baloo 2"; font-size: 56px; color: var(--tone); opacity: .35; }
+
+.verdict { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 14px; background: var(--grid); border: 1px solid var(--border); }
+.verdict .ico { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: color-mix(in srgb, var(--tone) 18%, transparent); color: var(--tone); }
+.verdict .ico svg { width: 18px; height: 18px; }
+.verdict .q { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.verdict .a { font-weight: 600; color: var(--text); line-height: 1.5; }
+.blame-bar { display: flex; height: 7px; border-radius: 999px; overflow: hidden; margin-top: 8px; gap: 2px; }
+.blame-bar i { display: block; height: 100%; width: 0; transition: width 1.4s cubic-bezier(.2,.7,.2,1) .5s; }
+.blame-bar i.p { background: #ff9933; }
+.blame-bar i.g { background: #6ab7ff; }
+.blame-legend { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.empty-msg { text-align: center; color: var(--muted); padding: 40px 0; display: none; }
+
+/* =========================================================
+   SCENE ANIMATIONS
+   ========================================================= */
+.anim-flag { animation: wave 2.6s ease-in-out infinite; transform-origin: 0 50%; transform-box: fill-box; }
+@keyframes wave { 0%, 100% { transform: skewY(0deg) scaleX(1); } 50% { transform: skewY(-4deg) scaleX(.94); } }
+.anim-glow { animation: glow 3s ease-in-out infinite; }
+@keyframes glow { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+.anim-spin { animation: spin 14s linear infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.anim-bob { animation: bob 3s ease-in-out infinite; transform-box: fill-box; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.anim-drop { animation: drop 2.2s ease-in infinite; transform-box: fill-box; }
+@keyframes drop { 0% { transform: translateY(-14px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(14px); opacity: 0; } }
+.anim-pump { animation: pump 2.4s ease-in-out infinite; transform-origin: 50% 50%; transform-box: fill-box; }
+@keyframes pump { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+.anim-flicker { animation: flicker 1.1s ease-in-out infinite alternate; transform-origin: 50% 100%; transform-box: fill-box; }
+@keyframes flicker { 0% { transform: scaleY(1) scaleX(1); opacity: .9; } 100% { transform: scaleY(1.15) scaleX(.92); opacity: 1; } }
+.anim-dash { stroke-dasharray: 600; stroke-dashoffset: 600; animation: dash 3.5s ease-out infinite; }
+@keyframes dash { to { stroke-dashoffset: 0; } }
+.anim-type { animation: typeIn 3s steps(12) infinite; transform-origin: 0 0; transform-box: fill-box; }
+@keyframes typeIn { 0% { transform: scaleX(0); } 60%, 100% { transform: scaleX(1); } }
+.anim-grow { animation: grow 2.6s cubic-bezier(.2,.7,.2,1) infinite alternate; transform-origin: 50% 100%; transform-box: fill-box; }
+@keyframes grow { from { transform: scaleY(.25); } to { transform: scaleY(1); } }
+.anim-float { animation: floaty 5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes floaty { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(4px, -7px) rotate(20deg); } }
+.anim-blink { animation: blink 1.2s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* =========================================================
+   SUMMARY + FOOTER
+   ========================================================= */
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.sum-card { padding: 24px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); position: relative; overflow: hidden; opacity: 0; transform: translateY(30px); transition: all .8s cubic-bezier(.2,.7,.2,1); }
+.sum-card.in { opacity: 1; transform: none; }
+.sum-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--tone); }
+.sum-card h3 { font-size: 22px; margin-bottom: 8px; }
+.sum-card .big { font-family: "Baloo 2"; font-size: 40px; font-weight: 800; color: var(--tone); line-height: 1.1; }
+.sum-card ul { margin: 10px 0 0; padding-left: 18px; color: var(--text-2); }
+.sum-card li { margin-bottom: 4px; }
+.sum-card.political { --tone: #ff9933; }
+.sum-card.global { --tone: #6ab7ff; }
+.sum-card.comeback { --tone: var(--rise); }
+
+.takeaway {
+  margin-top: 28px; padding: 26px 28px; border-radius: var(--radius); text-align: center;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--saffron) 14%, transparent), color-mix(in srgb, var(--india-green) 14%, transparent));
+  border: 1px solid var(--border);
+}
+.takeaway p { margin: 0 auto; max-width: 780px; font-size: 18px; color: var(--text); }
+
+footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; text-align: center; }
+footer .disc { max-width: 760px; margin: 0 auto 12px; }
+
+.to-top {
+  position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; border: 1px solid var(--border-strong);
+  background: var(--surface); backdrop-filter: blur(10px); opacity: 0; transform: translateY(20px); pointer-events: none; transition: all .3s;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top svg { width: 20px; height: 20px; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+  .timeline::before, .timeline-fill { left: 18px; }
+  .stop, .stop.side-right { grid-template-columns: 40px 1fr; gap: 0 10px; }
+  .stop .card, .stop.side-right .card { grid-column: 2; }
+  .stop .node { grid-column: 1; top: 160px; padding-top: 26px; }
+  .node-year { display: none; }
+  .card, .stop.side-right .card { transform: translateY(50px); padding: 20px; }
+  .summary-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .media, .media.duo { grid-template-columns: 1fr; }
+  .portrait { max-width: 200px; margin-inline: auto; }
+  .media.duo .portrait { max-width: 290px; }
+  .rate { grid-template-columns: 1fr; }
+  .rate-side { align-items: flex-start; text-align: left; }
+  .controls-row { flex-direction: column; align-items: stretch; }
+  .filters { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-btn { flex: none; padding: 7px 13px; font-size: 14px; }
+  .hud { justify-content: center; }
+  .stop { scroll-margin-top: 175px; }
+  .chart-card { padding: 16px 12px 10px; }
+  .hstat { min-width: 0; flex: 1 1 40%; }
+  .hero { padding-top: 80px; }
+}
+
+/* revealed state must win over side/mobile offsets */
+.stop.in .card, .stop.in.side-right .card { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body data-tone="start">
+<div class="ambient" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <div class="hero-floaters" id="floaters" aria-hidden="true"></div>
+  <div class="topbar wrap">
+    <div class="brand"><span class="brand-flag" aria-hidden="true"><i style="background:#ff9933"></i><i style="background:#fff"></i><i style="background:#138808"></i></span> रुपया vs डॉलर · 1947–2026</div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="थीम बदलें">
+      <span id="themeIcon">🌙</span><span id="themeLabel">डार्क</span>
+    </button>
+  </div>
+
+  <div class="hero-inner wrap">
+    <span class="eyebrow">📜 79 साल · 10 पड़ाव · 1 रुपया</span>
+    <h1>💸 <span class="grad">₹1 से ₹96.33 तक</span>: भारतीय रुपये की देसी दास्तान <span style="white-space:nowrap">(1947 - 2026)</span></h1>
+    <p class="sub">जानिए कब-कब हमारे रुपये ने गोता लगाया, कब संभला, और इसमें हमारी राजनीति और अमेरिका का क्या खेल था!</p>
+
+    <div class="hero-meter" role="img" aria-label="1 डॉलर की कीमत 1947 में ₹3.30 से अक्टूबर 2026 में ₹96.33">
+      <span class="lbl">$1 =</span>
+      <span class="val" id="heroVal">₹3.30</span>
+      <span class="yr" id="heroYr">साल 1947</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat"><b>₹3.30</b><span>1947 में $1</span></div>
+      <div class="hstat"><b style="color:var(--fall)">₹96.33</b><span>अक्टूबर 2026 में $1</span></div>
+      <div class="hstat"><b>~29 गुना</b><span>डॉलर महंगा हुआ</span></div>
+    </div>
+
+    <div class="myth">
+      <span class="x">₹1 = $1</span>
+      <p><b>मिथक!</b> 1947 में ₹1 कभी $1 के बराबर नहीं था। असली रेट था <b>$1 = ₹3.30</b>। पूरी कहानी नीचे 👇</p>
+    </div>
+
+    <a class="scroll-cue" href="#chart-section"><span class="mouse"></span>स्क्रॉल करें और सफर शुरू करें</a>
+  </div>
+</header>
+
+<!-- ===================== STICKY CONTROLS ===================== -->
+<nav class="controls" aria-label="कहानी फ़िल्टर">
+  <div class="wrap">
+    <div class="controls-row">
+      <div class="filters" role="group" aria-label="टाइमलाइन फ़िल्टर करें">
+        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">📚 सभी कहानियाँ <span class="cnt" data-count="all"></span></button>
+        <button class="filter-btn" type="button" data-filter="political" aria-pressed="false">🏛️ राजनीतिक फैसले / गलतियाँ <span class="cnt" data-count="political"></span></button>
+        <button class="filter-btn" type="button" data-filter="global" aria-pressed="false">🌍 ग्लोबल संकट / USA का असर <span class="cnt" data-count="global"></span></button>
+      </div>
+      <div class="hud" aria-live="polite">
+        <span class="dot"></span>
+        <span class="hud-yr" id="hudYr">1947</span>
+        <span>$1 = <b id="hudVal">₹3.30</b></span>
+      </div>
+    </div>
+    <div class="year-rail" id="yearRail"></div>
+  </div>
+</nav>
+
+<main>
+  <!-- ===================== CHART ===================== -->
+  <section class="section wrap" id="chart-section">
+    <div class="section-head">
+      <div class="kicker">एक नज़र में पूरा सफर</div>
+      <h2>79 साल, एक लाइन में</h2>
+      <p>हर बिंदु एक पड़ाव है। लाल/नारंगी = रुपया गिरा, हरा = रुपया मजबूत हुआ। किसी भी बिंदु पर क्लिक करके सीधे उस कहानी पर जाएँ।</p>
+    </div>
+    <div class="chart-card">
+      <div class="chart-top">
+        <div>
+          <div class="chart-title">1 अमेरिकी डॉलर = कितने रुपये?</div>
+          <div class="chart-note">सांकेतिक चार्ट: सिर्फ कहानी के मुख्य पड़ाव जोड़े गए हैं, बीच के हर साल का डेटा नहीं।</div>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background:var(--gold)"></i>शुरुआत</span>
+          <span><i style="background:var(--fall-2)"></i>रुपया फिसला</span>
+          <span><i style="background:var(--fall)"></i>बड़ा क्रैश</span>
+          <span><i style="background:var(--rise)"></i>रुपया मजबूत</span>
+        </div>
+      </div>
+      <div class="chart-svg-wrap" id="chartWrap">
+        <svg id="chart" viewBox="0 0 900 340" role="img" aria-label="1947 से 2026 तक डॉलर-रुपया विनिमय दर का चार्ट"></svg>
+        <div class="tooltip" id="tooltip" role="status"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TIMELINE ===================== -->
+  <section class="section wrap" id="story">
+    <div class="section-head">
+      <div class="kicker">पड़ाव-दर-पड़ाव</div>
+      <h2>रुपये की कहानी, देसी ज़ुबानी</h2>
+      <p>ऊपर दिए बटन से छाँटिए — किस गिरावट में हमारी अपनी राजनीति का हाथ था और कब दुनिया (खासकर अमेरिका) ने खेल किया।</p>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="timeline-fill" id="timelineFill"></div>
+    </div>
+    <p class="empty-msg" id="emptyMsg">इस फ़िल्टर में कोई कहानी नहीं मिली।</p>
+  </section>
+
+  <!-- ===================== SUMMARY ===================== -->
+  <section class="section wrap" id="summary">
+    <div class="section-head">
+      <div class="kicker">79 साल का निचोड़</div>
+      <h2>तो आखिर दोषी कौन?</h2>
+      <p>हर गिरावट एक जैसी नहीं थी। कुछ हमारी अपनी गलतियाँ थीं, कुछ दुनिया की मार — और बीच में एक शानदार कमबैक भी।</p>
+    </div>
+    <div class="summary-grid">
+      <div class="sum-card political">
+        <h3>🏛️ घर की गलतियाँ</h3>
+        <div class="big">1991</div>
+        <ul>
+          <li>लाइसेंस राज और लचर नीतियाँ → सोना गिरवी</li>
+          <li>2013 की पॉलिसी पैरालिसिस (आधा दोष)</li>
+          <li>1949 का सोचा-समझा डीवैल्यूएशन</li>
+        </ul>
+      </div>
+      <div class="sum-card global">
+        <h3>🌍 दुनिया की मार</h3>
+        <div class="big">$ का दबदबा</div>
+        <ul>
+          <li>1973 का तेल संकट</li>
+          <li>2013 टेपर टेंट्रम, 2020 कोरोना पैनिक</li>
+          <li>2022–24 यूक्रेन युद्ध और US ब्याज दरें</li>
+        </ul>
+      </div>
+      <div class="sum-card comeback">
+        <h3>🚀 हमारा कमबैक</h3>
+        <div class="big">₹44.94 → ₹39.40</div>
+        <ul>
+          <li>2000–07 में IT बूम ने रुपये को मजबूत किया</li>
+          <li>1991 के सुधारों से इकॉनमी बची</li>
+          <li>आज मजबूत फॉरेक्स रिज़र्व</li>
+        </ul>
+      </div>
+    </div>
+    <div class="takeaway">
+      <p>💡 <b>सबक:</b> रुपये का गिरना हमेशा “कमज़ोर देश” की निशानी नहीं होता। कभी यह मजबूरी का फैसला था, कभी दुनिया का डर, और कभी अमेरिकी डॉलर की दादागिरी। असली ताकत है — मजबूत इकॉनमी, ज्यादा एक्सपोर्ट और भरा हुआ खजाना।</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p class="disc">⚠️ यह पेज शैक्षिक कहानी के रूप में बनाया गया है। विनिमय दरें मुख्य पड़ावों के सांकेतिक आंकड़े हैं; अक्टूबर 2026 का ₹96.33 कहानी में दिया गया आंकड़ा है। प्रधानमंत्रियों के चित्र असली तस्वीरें नहीं, प्रतीकात्मक इलस्ट्रेशन हैं।</p>
+  <p>बनाया गया ❤️ से · भारतीय रुपये की देसी दास्तान</p>
+</footer>
+
+<button class="to-top" id="toTop" type="button" aria-label="ऊपर जाएँ">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<noscript><p style="text-align:center;padding:20px">पूरी कहानी देखने के लिए कृपया JavaScript चालू करें।</p></noscript>
+
+<script>
+(() => {
+"use strict";
+
+/* =========================================================
+   1. PORTRAIT ILLUSTRATIONS (stylised SVG, not real photos)
+   ========================================================= */
+let pid = 0;
+function avatar(o) {
+  const id = "pg" + (++pid);
+  const skin = o.skin || "#c98e62";
+  const skinShade = o.skinShade || "#a8714a";
+  const outfit = o.outfit || "#eee6d6";
+  const bg1 = o.bg1 || "#3b2a14", bg2 = o.bg2 || "#120d06";
+  let s = `<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs><radialGradient id="${id}" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="${bg1}"/><stop offset="1" stop-color="${bg2}"/></radialGradient></defs>
+  <rect width="120" height="140" fill="url(#${id})"/>`;
+  if (o.backdrop) s += o.backdrop;
+  // body
+  s += `<path d="M10 140 C 14 110, 36 99, 60 99 C 84 99, 106 110, 110 140 Z" fill="${outfit}"/>`;
+  if (o.vest) s += `<path d="M18 140 C 20 116, 34 104, 48 101 L 60 124 L 72 101 C 86 104, 100 116, 102 140 Z" fill="${o.vest}"/><path d="M48 101 L60 124 L72 101" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1.2"/>`;
+  if (o.saree) s += `<path d="M10 140 C 14 112, 30 102, 46 100 C 62 112, 84 108, 96 104 C 104 112, 108 126, 110 140 Z" fill="${o.saree}"/><path d="M46 100 C 60 116, 86 112, 98 105" fill="none" stroke="${o.sareeBorder || '#e7c26a'}" stroke-width="3"/>`;
+  if (o.collar) s += `<path d="M50 99 L 52 108 L 60 110 L 68 108 L 70 99" fill="none" stroke="rgba(0,0,0,.22)" stroke-width="1.6"/>`;
+  if (o.rose) s += `<g transform="translate(40 116)"><circle r="4.2" fill="#d42a3a"/><circle r="2.2" fill="#a51627"/><path d="M0 4 L2 11" stroke="#2f7a2f" stroke-width="1.6"/></g>`;
+  // neck & head
+  s += `<rect x="52" y="80" width="16" height="22" rx="6" fill="${skinShade}"/>`;
+  s += `<ellipse cx="38.5" cy="64" rx="4" ry="6" fill="${skinShade}"/><ellipse cx="81.5" cy="64" rx="4" ry="6" fill="${skinShade}"/>`;
+  s += `<ellipse cx="60" cy="61" rx="22" ry="27" fill="${skin}"/>`;
+  // hair
+  const hc = o.hair || "#1c1a18";
+  if (o.hairStyle === "short") s += `<path d="M38 58 C 36 32, 84 32, 82 58 C 78 44, 42 44, 38 58 Z" fill="${hc}"/>`;
+  if (o.hairStyle === "side") s += `<path d="M38 64 C 36 50, 40 42, 46 38 C 42 46, 41 54, 41 64 Z M82 64 C 84 50, 80 42, 74 38 C 78 46, 79 54, 79 64 Z" fill="${hc}"/><path d="M46 38 C 54 34, 66 34, 74 38" fill="none" stroke="${hc}" stroke-width="2" opacity=".5"/>`;
+  if (o.hairStyle === "bob") {
+    s += `<path d="M35 70 C 28 30, 92 30, 85 70 C 86 82, 82 90, 78 90 L 80 60 C 72 42, 48 42, 40 60 L 42 90 C 38 90, 34 82, 35 70 Z" fill="${hc}"/>`;
+    if (o.streak) s += `<path d="M52 36 C 46 42, 44 50, 46 58" fill="none" stroke="#f1f1f1" stroke-width="4.5" stroke-linecap="round"/>`;
+  }
+  // headwear
+  if (o.cap) s += `<path d="M36 46 L 84 46 L 80 30 C 70 23, 50 23, 40 30 Z" fill="#f7f5ef"/><path d="M60 25 L 60 46" stroke="#d8d3c4" stroke-width="1.5"/><path d="M36 46 L84 46" stroke="#d8d3c4" stroke-width="2"/>`;
+  if (o.turban) s += `<path d="M34 54 C 28 20, 92 20, 86 54 C 78 44, 42 44, 34 54 Z" fill="${o.turban}"/><path d="M40 44 C 50 32, 72 30, 82 42 M38 50 C 50 38, 74 36, 84 48 M60 26 C 54 34, 50 42, 48 47" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1.6"/>`;
+  // brows & eyes
+  const expr = o.expr || "neutral";
+  const browY = expr === "stern" ? 54 : 53;
+  if (expr === "worried") s += `<path d="M45 54 L 55 52 M65 52 L 75 54" stroke="#3a2c22" stroke-width="2.2" stroke-linecap="round" transform="rotate(0)"/><path d="M47 52 L55 50 M65 50 L73 52" stroke="none"/>`;
+  else if (expr === "stern") s += `<path d="M45 ${browY - 1} L 55 ${browY + 1} M65 ${browY + 1} L 75 ${browY - 1}" stroke="#2a201a" stroke-width="2.4" stroke-linecap="round"/>`;
+  else s += `<path d="M45 ${browY} Q 50 ${browY - 2.5} 55 ${browY} M65 ${browY} Q 70 ${browY - 2.5} 75 ${browY}" fill="none" stroke="${o.browColor || '#2a201a'}" stroke-width="2.2" stroke-linecap="round"/>`;
+  s += `<ellipse cx="50.5" cy="61" rx="2.4" ry="2.2" fill="#1d1612"/><ellipse cx="69.5" cy="61" rx="2.4" ry="2.2" fill="#1d1612"/>`;
+  if (o.glasses === "round") s += `<g fill="none" stroke="#222" stroke-width="1.6"><circle cx="50.5" cy="61" r="6.5"/><circle cx="69.5" cy="61" r="6.5"/><path d="M57 61 L63 61"/></g>`;
+  if (o.glasses === "rect") s += `<g fill="rgba(255,255,255,.08)" stroke="${o.glassColor || '#1a1a1a'}" stroke-width="1.8"><rect x="43" y="56" width="15" height="10.5" rx="3"/><rect x="62" y="56" width="15" height="10.5" rx="3"/><path d="M58 60 L62 60" fill="none"/></g>`;
+  // nose
+  s += `<path d="M60 63 C 58 69, 57 72, 61 73" fill="none" stroke="${skinShade}" stroke-width="1.8" stroke-linecap="round"/>`;
+  // beard
+  if (o.beard) s += `<path d="M38 66 C 39 94, 81 94, 82 66 C 78 80, 72 86, 60 86 C 48 86, 42 80, 38 66 Z" fill="${o.beard}"/><path d="M50 76 C 55 73, 65 73, 70 76 C 65 78, 55 78, 50 76 Z" fill="${o.beard}"/>`;
+  // mouth
+  if (!o.mask) {
+    if (expr === "smile") s += `<path d="M52 79 Q 60 86 68 79" fill="none" stroke="#6b2f24" stroke-width="2.2" stroke-linecap="round"/>`;
+    else if (expr === "worried") s += `<path d="M53 81 Q 60 77 67 81" fill="none" stroke="#6b2f24" stroke-width="2.2" stroke-linecap="round"/>`;
+    else if (expr === "stern") s += `<path d="M53 80 L 67 80" stroke="#6b2f24" stroke-width="2.2" stroke-linecap="round"/>`;
+    else s += `<path d="M53 80 Q 60 82 67 80" fill="none" stroke="#6b2f24" stroke-width="2.2" stroke-linecap="round"/>`;
+  } else {
+    s += `<path d="M40 68 C 40 88, 80 88, 80 68 L 76 66 C 70 70, 50 70, 44 66 Z" fill="#cfe6f5"/><path d="M45 74 L75 74 M46 79 L74 79" stroke="#9cc2dc" stroke-width="1.2"/><path d="M40 68 L 36 62 M80 68 L 84 62" stroke="#cfe6f5" stroke-width="1.5"/>`;
+  }
+  s += `</svg>`;
+  return s;
+}
+
+const P = {
+  nehru:    { cap: true, outfit: "#efe6d2", collar: true, rose: true, expr: "smile", skin: "#dcae86", skinShade: "#b98a62" },
+  indira:   { hairStyle: "bob", streak: true, saree: "#6e7f52", sareeBorder: "#e3b75a", outfit: "#d9cbb0", expr: "stern", skin: "#d6a67f", skinShade: "#b0805a" },
+  indira2:  { hairStyle: "bob", streak: true, saree: "#8a4a5a", sareeBorder: "#e3b75a", outfit: "#d9cbb0", expr: "neutral", skin: "#d6a67f", skinShade: "#b0805a" },
+  morarji:  { cap: true, glasses: "rect", outfit: "#f2efe7", collar: true, expr: "neutral", skin: "#cf9f78", skinShade: "#a87a55" },
+  rao:      { hairStyle: "side", hair: "#b9b6ae", outfit: "#f2efe7", collar: true, expr: "neutral", skin: "#b98458", skinShade: "#946340", browColor: "#777" },
+  manmohan: { turban: "#5b7fc4", beard: "#eeeeea", glasses: "rect", outfit: "#e9e4d6", collar: true, expr: "neutral", skin: "#d0a07a", skinShade: "#aa7c58" },
+  manmohanW:{ turban: "#5b7fc4", beard: "#eeeeea", glasses: "rect", outfit: "#e9e4d6", vest: "#5b5f6b", expr: "worried", skin: "#d0a07a", skinShade: "#aa7c58" },
+  atal:     { hairStyle: "side", hair: "#e9e7e1", glasses: "rect", glassColor: "#3a2a1a", outfit: "#f1ece0", vest: "#c9a46a", expr: "smile", skin: "#d2a27c", skinShade: "#aa7b57", browColor: "#bbb" },
+  modi2020: { hairStyle: "side", hair: "#efefef", beard: "#efefef", glasses: "rect", glassColor: "#555", outfit: "#f4f1ea", vest: "#c8742f", mask: true, expr: "neutral", skin: "#d4a27a", skinShade: "#ad7c56", browColor: "#ddd" },
+  modi:     { hairStyle: "side", hair: "#efefef", beard: "#efefef", glasses: "rect", glassColor: "#555", outfit: "#f4f1ea", vest: "#3c4c76", expr: "smile", skin: "#d4a27a", skinShade: "#ad7c56", browColor: "#ddd" },
+  modiTech: { hairStyle: "side", hair: "#efefef", beard: "#efefef", glasses: "rect", glassColor: "#555", outfit: "#f4f1ea", vest: "#1f2d55", expr: "smile", skin: "#d4a27a", skinShade: "#ad7c56", browColor: "#ddd", bg1: "#1a3d8a", bg2: "#060b1f",
+    backdrop: `<g stroke="#4fd1ff" stroke-width="1" opacity=".45" fill="none"><path d="M0 30 H30 V12 M120 40 H92 V20 M0 92 H18 V110 M120 96 H100 V120"/><circle cx="30" cy="12" r="2" fill="#4fd1ff"/><circle cx="92" cy="20" r="2" fill="#4fd1ff"/></g>` }
+};
+
+/* =========================================================
+   2. HISTORIC SCENE ILLUSTRATIONS
+   ========================================================= */
+const SCENES = {
+  freedom: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-fr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2a5e"/><stop offset=".6" stop-color="#d9733a"/><stop offset="1" stop-color="#f6c06a"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-fr)"/><circle cx="252" cy="96" r="30" fill="#ffd98a" class="anim-glow"/>
+    <rect x="0" y="146" width="320" height="34" fill="#6d2418"/>
+    <g fill="#a8382a"><rect x="30" y="104" width="230" height="46"/><rect x="118" y="86" width="54" height="64"/>
+    <path d="M30 104 h230 v-6 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-8 v4 h-8 v-4 h-6 z"/></g>
+    <g fill="#f3e2c4"><path d="M120 86 q12 -16 25 0 z"/><path d="M146 86 q12 -16 25 0 z"/><path d="M40 104 q9 -12 18 0 z"/><path d="M232 104 q9 -12 18 0 z"/></g>
+    <path d="M133 150 v-30 q12 -16 24 0 v30 z" fill="#3a120c"/>
+    <line x1="145" y1="20" x2="145" y2="86" stroke="#e8e8e8" stroke-width="2"/>
+    <g class="anim-flag"><rect x="146" y="22" width="54" height="11" fill="#ff9933"/><rect x="146" y="33" width="54" height="11" fill="#ffffff"/><rect x="146" y="44" width="54" height="11" fill="#138808"/><circle cx="173" cy="38.5" r="4" fill="none" stroke="#000080" stroke-width="1.2"/></g>
+  </svg>`,
+  coins: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-co" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b1d0e"/><stop offset="1" stop-color="#0f0a05"/></linearGradient><linearGradient id="cn" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9c6b1f"/><stop offset=".5" stop-color="#f3d27a"/><stop offset="1" stop-color="#9c6b1f"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-co)"/>
+    <g>${[0,1,2,3,4,5].map(i => `<ellipse cx="70" cy="${140 - i * 11}" rx="34" ry="10" fill="url(#cn)" stroke="#6b4512"/>`).join("")}<text x="70" y="88" text-anchor="middle" font-size="14" font-weight="800" fill="#5a3a0c">₹</text></g>
+    <g>${[0,1,2].map(i => `<ellipse cx="125" cy="${150 - i * 11}" rx="26" ry="8" fill="url(#cn)" stroke="#6b4512"/>`).join("")}</g>
+    <g transform="translate(232 82)"><circle r="54" fill="none" stroke="#e3b75a" stroke-width="6" stroke-dasharray="6 5" class="anim-spin"/><circle r="44" fill="#1a2a1a" stroke="#e3b75a" stroke-width="2"/>
+      <path d="M-18 14 q4 -24 0 -36 M-10 14 q4 -22 2 -30 M18 14 q-4 -24 0 -36 M10 14 q-4 -22 -2 -30" stroke="#d6b55a" stroke-width="2.4" fill="none"/>
+      <text y="-8" text-anchor="middle" font-size="11" font-weight="700" fill="#f3e2b0">पंचवर्षीय</text><text y="6" text-anchor="middle" font-size="11" font-weight="700" fill="#f3e2b0">योजना</text><text y="26" text-anchor="middle" font-size="10" fill="#e3b75a">1951</text></g>
+    <g class="anim-bob"><rect x="150" y="22" width="92" height="22" rx="11" fill="rgba(255,154,60,.18)" stroke="#ff9a3c"/><text x="196" y="37" text-anchor="middle" font-size="12" font-weight="700" fill="#ffcf9a">₹3.30 → ₹4.76</text></g>
+  </svg>`,
+  war: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-wa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a1408"/><stop offset=".7" stop-color="#b34a1a"/><stop offset="1" stop-color="#d98a3a"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-wa)"/><circle cx="70" cy="56" r="26" fill="#ff7a2a" opacity=".55" class="anim-glow"/>
+    <rect y="138" width="320" height="42" fill="#7a3e18"/><path d="M10 150 l30 8 l20 -6 l26 12 M120 146 l18 12 l30 -4 l14 14 M210 152 l26 6 l18 -8 l40 10" stroke="#4a220c" stroke-width="2" fill="none"/>
+    <g fill="#1a110b" opacity=".92"><g transform="translate(40 108)"><rect x="0" y="12" width="78" height="20" rx="6"/><rect x="18" y="0" width="38" height="16" rx="5"/><rect x="54" y="5" width="44" height="5" rx="2"/>${[8,24,40,56,70].map(x => `<circle cx="${x}" cy="34" r="6"/>`).join("")}</g>
+    <g transform="translate(180 116) scale(.8)"><rect x="0" y="12" width="78" height="20" rx="6"/><rect x="22" y="0" width="38" height="16" rx="5"/><rect x="-20" y="5" width="44" height="5" rx="2"/>${[8,24,40,56,70].map(x => `<circle cx="${x}" cy="34" r="6"/>`).join("")}</g></g>
+    <g opacity=".35" fill="#444">${[0,1,2].map(i => `<circle cx="${110 + i * 12}" cy="${80 - i * 14}" r="${10 + i * 4}"/>`).join("")}</g>
+    <g class="anim-drop"><path d="M276 30 v58 m-14 -14 l14 16 l14 -16" stroke="#ff3b2a" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <text x="276" y="118" text-anchor="middle" font-size="16" font-weight="800" fill="#ffe2d6">₹7.50</text>
+  </svg>`,
+  oil: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-oi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1030"/><stop offset="1" stop-color="#4a2a18"/></linearGradient><filter id="gl-oi"><feGaussianBlur stdDeviation="5"/></filter></defs>
+    <rect width="320" height="180" fill="url(#sk-oi)"/><rect y="146" width="320" height="34" fill="#20140c"/>
+    <g stroke="#0b0705" stroke-width="3" fill="none"><path d="M40 146 L 60 60 L 80 146 M46 120 H74 M52 94 H68 M56 74 H64"/></g>
+    <g fill="#0b0705"><rect x="104" y="138" width="80" height="8"/><path d="M134 138 L 144 96 L 154 138 Z"/>
+      <g class="anim-pump"><rect x="100" y="90" width="92" height="9" rx="3"/><path d="M100 86 q-14 8 0 22 z"/></g><circle cx="176" cy="122" r="12"/></g>
+    <g class="anim-drop"><path d="M101 116 q-5 8 0 12 q5 -4 0 -12z" fill="#0d0d0d" stroke="#555" stroke-width=".6"/></g>
+    <text x="250" y="122" text-anchor="middle" font-size="96" font-weight="800" fill="#4dff9a" filter="url(#gl-oi)" class="anim-glow">$</text>
+    <text x="250" y="122" text-anchor="middle" font-size="96" font-weight="800" fill="#d6ffe6">$</text>
+    <text x="250" y="160" text-anchor="middle" font-size="12" font-weight="700" fill="#ffd4b0">तेल = डॉलर की भूख</text>
+  </svg>`,
+  gold: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-go" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e1430"/><stop offset="1" stop-color="#1d1208"/></linearGradient><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".5" stop-color="#e2b23a"/><stop offset="1" stop-color="#9a6a12"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-go)"/>
+    <g stroke="#7a5310" stroke-width="1">${[[40,140],[86,140],[132,140],[63,118],[109,118],[86,96]].map(([x,y]) => `<path d="M${x} ${y} l6 -18 h34 l6 18 z" fill="url(#gb)"/>`).join("")}</g>
+    <g transform="translate(86 50)"><rect x="-16" y="0" width="32" height="26" rx="5" fill="#2a2a2a" stroke="#c9c9c9"/><path d="M-9 0 v-8 a9 9 0 0 1 18 0 v8" fill="none" stroke="#c9c9c9" stroke-width="4"/><circle cy="12" r="3.5" fill="#e2b23a"/></g>
+    <g transform="translate(80 150) rotate(-10)"><rect x="-42" y="-14" width="84" height="26" rx="4" fill="none" stroke="#ff4d2e" stroke-width="2.5"/><text y="5" text-anchor="middle" font-size="15" font-weight="800" fill="#ff4d2e">गिरवी</text></g>
+    <path d="M150 120 C 200 40, 250 40, 290 70" fill="none" stroke="#e3b75a" stroke-width="2" stroke-dasharray="5 6" class="anim-dash"/>
+    <g transform="translate(286 66) rotate(25)" class="anim-bob"><path d="M-14 0 L14 0 L18 -3 L14 -4 L-14 -2 Z M-2 -1 L-10 -12 L-6 -12 L6 -1 Z M-2 1 L-10 10 L-6 10 L6 1 Z" fill="#e8e8e8"/></g>
+    <text x="232" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#f3e2b0">✈ सोना → इंग्लैंड</text>
+    <text x="232" y="166" text-anchor="middle" font-size="12" fill="#ffb3a3">सिर्फ 2 हफ्ते का डॉलर बचा</text>
+  </svg>`,
+  it: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-it" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#062a24"/><stop offset="1" stop-color="#0b1424"/></linearGradient><filter id="gl-it"><feGaussianBlur stdDeviation="6"/></filter></defs>
+    <rect width="320" height="180" fill="url(#sk-it)"/>
+    <rect x="24" y="26" width="168" height="108" rx="8" fill="#0a0f14" stroke="#2ad08a" stroke-width="2"/><rect x="92" y="134" width="32" height="12" fill="#1c2a2a"/><rect x="70" y="146" width="76" height="6" rx="3" fill="#1c2a2a"/>
+    ${[["#4fd1ff",40],["#2ad08a",70],["#f5c451",54],["#ff8bd1",86],["#2ad08a",48],["#4fd1ff",96],["#f5c451",62]].map(([c,w],i) => `<rect x="${36 + (i % 3 === 1 ? 10 : 0)}" y="${38 + i * 12}" width="${w}" height="5" rx="2" fill="${c}" class="anim-type" style="animation-delay:${i * .25}s"/>`).join("")}
+    <rect x="${36}" y="${38 + 7 * 12}" width="6" height="8" fill="#2ad08a" class="anim-blink"/>
+    <text x="258" y="104" text-anchor="middle" font-size="78" font-weight="800" fill="#f5c451" filter="url(#gl-it)" class="anim-glow">₹</text>
+    <text x="258" y="104" text-anchor="middle" font-size="78" font-weight="800" fill="#fff3c4">₹</text>
+    <g class="anim-bob"><path d="M226 150 L 290 150 M258 160 V 120" stroke="none"/><path d="M220 40 l18 -18 l18 18 m-18 -18 v40" stroke="#22c55e" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(20 0)"/></g>
+    <text x="258" y="140" text-anchor="middle" font-size="12" font-weight="700" fill="#b8ffd6">IT बूम · ₹39.40</text>
+  </svg>`,
+  taper: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-ta" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#160a10"/><stop offset="1" stop-color="#2a0e0a"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-ta)"/>
+    <g stroke="rgba(255,255,255,.07)">${[40,70,100,130].map(y => `<line x1="10" x2="200" y1="${y}" y2="${y}"/>`).join("")}</g>
+    ${[[24,40,58,"#22c55e"],[44,48,66,"#ff4d2e"],[64,58,76,"#ff4d2e"],[84,54,70,"#22c55e"],[104,70,92,"#ff4d2e"],[124,86,106,"#ff4d2e"],[144,100,122,"#ff4d2e"],[164,116,140,"#ff4d2e"]].map(([x,a,b,c]) => `<line x1="${x + 5}" x2="${x + 5}" y1="${a - 6}" y2="${b + 6}" stroke="${c}" stroke-width="1.5"/><rect x="${x}" y="${a}" width="10" height="${b - a}" fill="${c}" rx="1.5"/>`).join("")}
+    <polyline points="29,50 49,58 69,68 89,62 109,82 129,96 149,112 169,128 190,150" fill="none" stroke="#ff7a5a" stroke-width="2.5" class="anim-dash"/>
+    <g transform="translate(218 44)" fill="#d8d2c6"><path d="M0 22 L 46 4 L 92 22 Z"/><rect x="0" y="22" width="92" height="6"/>${[6,24,42,60,78].map(x => `<rect x="${x}" y="30" width="8" height="58"/>`).join("")}<rect x="-4" y="88" width="100" height="8"/><text x="46" y="20" text-anchor="middle" font-size="9" font-weight="800" fill="#2a2420">FED</text></g>
+    <path d="M214 74 C 190 74, 186 100, 196 120" stroke="#6ab7ff" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+    <text x="264" y="160" text-anchor="middle" font-size="13" font-weight="800" fill="#ffb3a3">₹45 → ₹65+</text>
+  </svg>`,
+  covid: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0b12"/><stop offset="1" stop-color="#2a1210"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-cv)"/>
+    ${[[60,48,18,0],[262,40,13,1],[200,70,9,2]].map(([x,y,r,i]) => `<g class="anim-float" style="animation-delay:${i * .8}s"><circle cx="${x}" cy="${y}" r="${r + 7}" fill="none" stroke="#ff6b4a" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round"/><circle cx="${x}" cy="${y}" r="${r}" fill="#ff4d2e" opacity=".85"/><circle cx="${x - r / 3}" cy="${y - r / 3}" r="${r / 4}" fill="#ffb09a"/></g>`).join("")}
+    <polyline points="0,96 60,96 72,96 80,70 90,122 100,84 108,96 170,96 180,80 188,110 196,96 320,96" fill="none" stroke="#4dff9a" stroke-width="2.4" class="anim-dash"/>
+    <g transform="translate(30 122)">${[0,1,2,3].map(i => `<g transform="translate(${i * 68} 0)"><rect width="58" height="52" fill="#3a3a44"/>${[8,16,24,32,40].map(y => `<line x1="2" x2="56" y1="${y}" y2="${y}" stroke="#23232a" stroke-width="2"/>`).join("")}<rect x="12" y="-10" width="34" height="12" rx="2" fill="#c2271a"/><text x="29" y="-1" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">बंद</text></g>`).join("")}</g>
+  </svg>`,
+  warmap: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="sk-wm" cx="40%" cy="50%" r="70%"><stop offset="0" stop-color="#14254a"/><stop offset="1" stop-color="#05070f"/></radialGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-wm)"/>
+    <g transform="translate(110 92)"><circle r="68" fill="#0f2e5a" stroke="#4f8fd8" stroke-width="1.5"/>
+      <g fill="none" stroke="#4f8fd8" stroke-width=".8" opacity=".6"><ellipse rx="68" ry="22"/><ellipse rx="68" ry="46"/><ellipse rx="22" ry="68"/><ellipse rx="46" ry="68"/><line x1="-68" x2="68"/></g>
+      <path d="M-40 -30 q20 -16 46 -6 q14 8 30 0 q8 14 -6 26 q-24 4 -36 -6 q-20 6 -34 -14z M-26 18 q14 -6 22 6 q-2 22 -14 30 q-12 -12 -8 -36z" fill="#2d6a4a" opacity=".85"/>
+      <g transform="translate(18 -24)" class="anim-flicker"><path d="M0 0 C -10 -10, -4 -22, 2 -30 C 4 -20, 14 -16, 10 -4 C 8 2, 2 4, 0 0 Z" fill="#ff7a1a"/><path d="M2 -2 C -4 -8, 0 -16, 3 -20 C 5 -14, 9 -10, 6 -3 Z" fill="#ffd34a"/></g></g>
+    <g transform="translate(250 70)"><circle r="40" fill="none" stroke="#22c55e" stroke-width="2" opacity=".4" class="anim-glow"/><circle r="30" fill="rgba(34,197,94,.15)" stroke="#22c55e"/><text y="16" text-anchor="middle" font-size="46" font-weight="800" fill="#c8ffd9">$</text></g>
+    <g class="anim-bob"><rect x="206" y="128" width="88" height="24" rx="12" fill="rgba(255,77,46,.18)" stroke="#ff4d2e"/><text x="250" y="145" text-anchor="middle" font-size="12" font-weight="800" fill="#ffc9bd">ब्याज % ↑↑</text></g>
+  </svg>`,
+  digital: `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sk-dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071433"/><stop offset="1" stop-color="#1a0a24"/></linearGradient><linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d2e"/><stop offset="1" stop-color="#ff9a3c" stop-opacity=".25"/></linearGradient></defs>
+    <rect width="320" height="180" fill="url(#sk-dg)"/>
+    <g stroke="rgba(79,209,255,.12)">${[0,1,2,3,4,5,6,7,8,9,10].map(i => `<line x1="${i * 32}" x2="${i * 32}" y1="0" y2="180"/>`).join("")}${[0,1,2,3,4,5].map(i => `<line y1="${i * 36}" y2="${i * 36}" x1="0" x2="320"/>`).join("")}</g>
+    ${[[30,40],[62,52],[94,62],[126,76],[158,92],[190,106],[222,120],[254,138]].map(([x,h],i) => `<rect x="${x}" y="${160 - h}" width="22" height="${h}" rx="4" fill="url(#br)" class="anim-grow" style="animation-delay:${i * .12}s"/>`).join("")}
+    <polyline points="41,116 73,104 105,94 137,80 169,64 201,50 233,36 265,18" fill="none" stroke="#ffd34a" stroke-width="2.5" class="anim-dash"/>
+    <circle cx="265" cy="18" r="5" fill="#ffd34a" class="anim-glow"/>
+    <g><rect x="212" y="26" width="92" height="22" rx="6" fill="#ff4d2e"/><text x="258" y="41" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">₹96.33 · 2026</text></g>
+    <text x="16" y="24" font-size="11" font-weight="700" fill="#8ec7ff">USD/INR · LIVE</text>
+  </svg>`
+};
+
+/* =========================================================
+   3. THE STORY DATA
+   ========================================================= */
+const STOPS = [
+  {
+    id: "s1947", n: 1, years: [1947], label: "1947", tone: "start",
+    title: "आजादी की सुबह और पहला बड़ा मिथक",
+    from: null, to: 3.30, prefix: "",
+    pms: [["नेहरू", P.nehru]], pmName: "जवाहरलाल नेहरू", frame: "vintage",
+    mood: "मिथक तोड़ने वाला (Myth Buster)", cats: ["global"], blame: [0, 100],
+    story: "बहुत से लोग कहते हैं कि 1947 में ₹1 = $1 था। भाई, ये बिल्कुल अफवाह है! सच ये है कि हमारा रुपया उस समय ब्रिटिश पाउंड (£) से बंधा हुआ था। पाउंड की अपनी वैल्यू डॉलर के मुकाबले $4.03 थी, तो गणित लगाकर हमारा रुपया $1 के बदले ₹3.30 बैठता था। नेहरू जी के प्रधानमंत्री बनते ही देश के सामने चुनौतियां पहाड़ जैसी थीं, पर शुरुआत इसी रेट से हुई।",
+    verdict: "यह एक ग्लोबल और ऐतिहासिक व्यवस्था थी (Fixed Peg).",
+    scene: "freedom", caption: "नेहरू जी का विंटेज फ्रेम, लाल किला और तिरंगा"
+  },
+  {
+    id: "s1949", n: 2, years: [1949], label: "1949", tone: "fall",
+    title: "पहला सरकारी कदम (संभलने और एक्सपोर्ट बढ़ाने की कोशिश)",
+    from: 3.30, to: 4.76,
+    pms: [["नेहरू", P.nehru]], pmName: "जवाहरलाल नेहरू", frame: "vintage",
+    mood: "मजबूरी का फैसला", cats: ["political"], blame: [100, 0],
+    story: "देश को चलाने के लिए फैक्ट्रियां और मशीनें चाहिए थीं। हम बाहर से सामान खूब मंगा रहे थे पर हमारे पास डॉलर कम हो रहे थे। नेहरू सरकार ने एक सोची-समझी रणनीति के तहत रुपये की वैल्यू को खुद घटाकर ₹4.76 कर दिया। क्यों? ताकि भारतीय सामान विदेशों में सस्ता बिके और हमारा एक्सपोर्ट (निर्यात) बढ़ सके। रुपया गिरा जरूर, पर यह पैर जमाने की एक कोशिश थी।",
+    verdict: "शुद्ध भारतीय राजनीतिक और आर्थिक फैसला।",
+    scene: "coins", caption: "पुराने सिक्के और पहली पंचवर्षीय योजना (Five Year Plan)"
+  },
+  {
+    id: "s1966", n: 3, years: [1966], label: "1966", tone: "crash",
+    title: "युद्ध, सूखा और रुपये का पहला बड़ा एक्सीडेंट!",
+    from: 4.76, to: 7.50, deltaText: "57% की भारी गिरावट",
+    pms: [["इंदिरा गांधी", P.indira]], pmName: "इंदिरा गांधी", frame: "vintage",
+    mood: "बड़ा राजनीतिक संकट (Crash)", cats: ["political", "global"], blame: [50, 50],
+    story: "1960 का दशक भारत के लिए काल बनकर आया। 1962 में चीन से युद्ध हुआ, 1965 में पाकिस्तान से। इसी बीच देश में ऐसा सूखा पड़ा कि खाने के लाले पड़ गए। अमेरिका से अनाज मंगाना पड़ा। विदेशी मुद्रा भंडार बिल्कुल खाली हो चुका था। वर्ल्ड बैंक और अमेरिका ने दबाव बनाया। तब प्रधानमंत्री इंदिरा गांधी ने सत्ता संभालते ही एक झटके में रुपये को 57% कमजोर करके ₹7.50 कर दिया। यहाँ हमारी कोई आर्थिक गलती नहीं थी, बल्कि युद्ध और प्रकृति की मार थी, जिसका फायदा अमेरिका ने उठाया।",
+    verdict: "50% युद्ध और सूखा + 50% ग्लोबल प्रेशर (अमेरिका की चाल).",
+    blameLabels: ["युद्ध और सूखा", "ग्लोबल प्रेशर"],
+    scene: "war", caption: "इंदिरा गांधी का कड़क अंदाज़, युद्ध के टैंकों की परछाई"
+  },
+  {
+    id: "s1973", n: 4, years: [1973, 1980], label: "1973–80", tone: "fall",
+    title: "ग्लोबल तेल संकट (भारत बेकसूर, अमेरिका का खेल)",
+    from: 7.50, to: 7.86,
+    pms: [["इंदिरा गांधी", P.indira2], ["मोरारजी देसाई", P.morarji]], pmName: "इंदिरा गांधी / मोरारजी देसाई", frame: "vintage",
+    mood: "ग्लोबल झटका", cats: ["global"], blame: [0, 100],
+    story: "इस दौर में भारत की कोई गलती नहीं थी। खाड़ी देशों में तनाव हुआ और दुनिया में कच्चे तेल (Crude Oil) की कीमतें आसमान छूने लगीं। भारत को तेल खरीदने के लिए अंधाधुंध डॉलर बाजार से खरीदने पड़े। जब पूरी दुनिया में डॉलर की मांग बढ़ी, तो हमारा रुपया थोड़ा और खिसक कर ₹7.86 तक पहुंच गया।",
+    verdict: "100% ग्लोबल संकट / तेल का खेल।",
+    scene: "oil", caption: "तेल के कुएं और डॉलर का चमकता हुआ सिंबल"
+  },
+  {
+    id: "s1991", n: 5, years: [1991], label: "1991", tone: "crash",
+    title: "वो साल जब भारत का सोना गिरवी रखना पड़ा! (सबसे बड़ी भारतीय राजनीतिक गलती)",
+    from: 17.50, to: 22.74,
+    pms: [["नरसिम्हा राव", P.rao], ["मनमोहन सिंह", P.manmohan]], pmName: "पी. वी. नरसिम्हा राव (और वित्त मंत्री डॉ. मनमोहन सिंह)", frame: "vintage",
+    mood: "महा-संकट और टर्निंग पॉइंट (The Ultimate Reset)", cats: ["political"], blame: [100, 0],
+    story: "यह भारत के इतिहास का सबसे बड़ा आर्थिक संकट था। सालों की लचर राजनीतिक नीतियों, लाइसेंस राज और खाड़ी युद्ध के चलते देश कंगाल होने की कगार पर था। हमारे पास विदेशों को चुकाने के लिए सिर्फ 2 हफ्ते का डॉलर बचा था! मजबूरी में भारत को अपना सरकारी सोना इंग्लैंड के बैंकों में गिरवी रखना पड़ा। नरसिम्हा राव की नई सरकार और वित्त मंत्री मनमोहन सिंह ने क्रांतिकारी कदम उठाया। उन्होंने रुपये को दो बार में खुद डीवैल्यू (कम) किया और बाजार को खोल दिया (Liberalization). रुपया ₹22.74 पर पहुंच गया, लेकिन इस कड़वी दवा से हमारी इकॉनमी बच गई।",
+    verdict: "शुद्ध भारतीय राजनीतिक भूलों का नतीजा, जिसे सुधारा गया।",
+    scene: "gold", caption: "राव–मनमोहन की जोड़ी, सोने की ईंटें और गिरवी का ठप्पा"
+  },
+  {
+    id: "s2000", n: 6, years: [2000, 2007], label: "2000–07", tone: "rise",
+    title: "रुपया हुआ मजबूत! अटल जी का सुनहरी दौर (The Comeback)",
+    from: 44.94, to: 39.40,
+    pms: [["अटल बिहारी वाजपेयी", P.atal], ["मनमोहन सिंह", P.manmohan]], pmName: "अटल बिहारी वाजपेयी / डॉ. मनमोहन सिंह", frame: "",
+    mood: "मजबूती और गर्व (Pride)", cats: ["political"], blame: [100, 0],
+    story: "हाँ, ऐसा भी वक्त आया था जब रुपया मजबूत हुआ था! साल 2000 के बाद भारत में आईटी (IT) और सॉफ्टवेयर का बूम आया। अटल जी की नीतियों से विदेशी पैसा भारत आने लगा। देश का विदेशी मुद्रा भंडार बढ़ने लगा। 2007 आते-आते रुपया डॉलर को पटखनी देते हुए ₹44 से मजबूत होकर ₹39.40 पर आ गया! यह भारतीय मैन्युफैक्चरिंग और आईटी सेक्टर की ताकत का जलवा था।",
+    verdict: "भारतीय बेहतरीन नीतियां और आईटी बूम।",
+    blameLabels: ["भारतीय नीतियाँ (पॉज़िटिव!)", "ग्लोबल"],
+    scene: "it", caption: "अटल जी की मुस्कान, कंप्यूटर कोडिंग और चमकता रुपया"
+  },
+  {
+    id: "s2013", n: 7, years: [2013], label: "2013", tone: "crash",
+    title: "'टेपर टेंट्रम' और नीतिगत पंगुता (Policy Paralysis)",
+    from: 45, to: 65, plus: true,
+    pms: [["मनमोहन सिंह", P.manmohanW]], pmName: "डॉ. मनमोहन सिंह", frame: "",
+    mood: "घरेलू और बाहरी दोनों मार", cats: ["political", "global"], blame: [50, 50],
+    story: "2008 की वैश्विक मंदी के बाद भारत में महंगाई बढ़ रही थी और सरकार पर घोटालों के आरोप लग रहे थे, जिससे फैसले रुक गए थे (Policy Paralysis). इसी बीच अमेरिकी फेडरल रिजर्व ने इशारा किया कि वह दुनिया से अपना डॉलर वापस समेटेगा। इसे 'टेपर टेंट्रम' कहते हैं। विदेशी निवेशकों ने भारत से रातों-रात पैसा निकाला और रुपया भरभराकर ₹45 से सीधे ₹65 के पार चला गया।",
+    verdict: "50% घरेलू नीतियां + 50% अमेरिकी केंद्रीय बैंक का झटका।",
+    blameLabels: ["घरेलू नीतियाँ", "US Fed का झटका"],
+    scene: "taper", caption: "मनमोहन सिंह की चिंतित मुद्रा, गिरता शेयर बाजार ग्राफ"
+  },
+  {
+    id: "s2020", n: 8, years: [2020], label: "2020", tone: "fall",
+    title: "कोरोना महामारी (कोई गलती नहीं, सिर्फ कुदरत का कहर)",
+    from: null, to: 76.38,
+    pms: [["नरेंद्र मोदी", P.modi2020]], pmName: "नरेंद्र मोदी", frame: "modern",
+    mood: "ग्लोबल पैनिक", cats: ["global"], blame: [0, 100],
+    story: "साल 2020 में आई सदी की सबसे बड़ी महामारी—कोविड-19। पूरी दुनिया थम गई, फैक्ट्रियां बंद हो गईं। ऐसे खौफ के माहौल में दुनिया भर के निवेशक अपना पैसा ऐसी जगह छुपाते हैं जो सबसे सुरक्षित हो, यानी 'अमेरिकी डॉलर'। सबने भारत के बाजारों से डॉलर निकाले और अमेरिका भाग गए। मांग बढ़ने से डॉलर मजबूत हो गया और हमारा रुपया टूटकर ₹76.38 पर जा गिरा। इसमें मोदी सरकार या देश की कोई गलती नहीं थी, यह विशुद्ध रूप से ग्लोबल डर का नतीजा था।",
+    verdict: "100% ग्लोबल मंदी और महामारी।",
+    scene: "covid", caption: "मास्क वाला दौर, मेडिकल ग्राफ और बंद बाजार"
+  },
+  {
+    id: "s2022", n: 9, years: [2022, 2024], label: "2022–24", tone: "fall",
+    title: "यूक्रेन युद्ध और अमेरिका की दादागिरी (Interest Rate War)",
+    from: null, to: 85.56,
+    pms: [["नरेंद्र मोदी", P.modi]], pmName: "नरेंद्र मोदी", frame: "modern",
+    mood: "जियोपॉलिटिकल प्रेशर", cats: ["global"], blame: [0, 100],
+    story: "रूस और यूक्रेन में जंग छिड़ गई। अमेरिका ने रूस पर पाबंदियां लगा दीं, जिससे कच्चा तेल फिर महंगा हो गया। साथ ही, अमेरिका ने अपने देश में बैंकों का ब्याज (Interest Rates) रिकॉर्ड स्तर पर बढ़ा दिया। नतीजा? निवेशकों को बिना रिस्क के अमेरिका में ज्यादा मुनाफा दिखने लगा, और वो भारत से डॉलर निकाल ले गए। आरबीआई ने अपने खजाने से अरबों डॉलर बाजार में फेंककर रुपये को बचाने की बहुत कोशिश की, फिर भी रुपया ₹85.56 तक फिसल गया।",
+    verdict: "100% यूएस फेड रिजर्व की नीतियां और युद्ध।",
+    scene: "warmap", caption: "ग्लोबल मैप, युद्ध की लपटें और डॉलर की मजबूत पकड़"
+  },
+  {
+    id: "s2026", n: 10, years: [2026], label: "अक्टूबर 2026", tone: "crash",
+    title: "आज की हकीकत (ऑल-टाइम हाई ₹96.33)",
+    from: null, to: 96.33, ath: true,
+    pms: [["नरेंद्र मोदी", P.modiTech]], pmName: "नरेंद्र मोदी", frame: "modern",
+    mood: "वर्तमान स्थिति का विश्लेषण", cats: ["global"], blame: [50, 50],
+    story: "आज अक्टूबर 2026 में रुपया अपने अब तक के सबसे निचले स्तर यानी ₹96.33 पर ट्रेड कर रहा है। डॉलर इंडेक्स लगातार मजबूत बना हुआ है। भारत का इम्पोर्ट बिल (विशेषकर इलेक्ट्रॉनिक्स, चिप्स और क्रूड ऑयल) बहुत बड़ा है। हालांकि भारत का विदेशी मुद्रा भंडार (Forex Reserve) मजबूत स्थिति में है और हमारी इकॉनमी दुनिया में सबसे तेज भाग रही है, लेकिन ग्लोबल मार्केट में डॉलर की दादागिरी और लगातार चलते युद्धों के चलते रुपया इस ऐतिहासिक मोड़ पर खड़ा है।",
+    verdict: "मजबूत भारतीय इकॉनमी बनाम सुपर-पॉवरफुल अमेरिकी डॉलर।",
+    blameLabels: ["मजबूत भारतीय इकॉनमी", "सुपर-पॉवरफुल डॉलर"],
+    scene: "digital", caption: "आधुनिक डिजिटल बैकड्रॉप और 2026 का इकोनॉमिक चार्ट"
+  }
+];
+
+const CAT_LABEL = { political: "🏛️ राजनीतिक फैसला", global: "🌍 ग्लोबल असर" };
+const ICON_DOWN = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>`;
+const ICON_UP = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>`;
+const ICON_Q = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7h14M5 7l-3 7a4 4 0 0 0 6 0zM19 7l-3 7a4 4 0 0 0 6 0z"/></svg>`;
+
+const fmt = v => "₹" + v.toFixed(2);
+function pctText(s) {
+  if (s.deltaText) return s.deltaText;
+  if (s.tone === "start") return "शुरुआती रेट (Fixed Peg)";
+  if (s.from == null) return s.ath ? "अब तक का सबसे निचला स्तर" : "रुपया फिसला";
+  const p = (s.to - s.from) / s.from * 100;
+  const a = Math.abs(p);
+  const n = a < 10 ? a.toFixed(1) : Math.floor(a);
+  return p > 0 ? `डॉलर ${n}% महंगा` : `रुपया मजबूत, डॉलर ${n}% सस्ता`;
+}
+
+/* =========================================================
+   4. RENDER TIMELINE
+   ========================================================= */
+const timeline = document.getElementById("timeline");
+const rail = document.getElementById("yearRail");
+let prevYear = 1930;
+
+STOPS.forEach((s, i) => {
+  const el = document.createElement("article");
+  el.className = `stop tone-${s.tone}`;
+  el.id = s.id;
+  el.dataset.cats = s.cats.join(" ");
+  el.dataset.index = i;
+
+  const yearHtml = s.years.length === 2
+    ? `<span class="count" data-from="${prevYear}" data-to="${s.years[0]}">${s.years[0]}</span><small> – </small><span class="count" data-from="${s.years[0]}" data-to="${s.years[1]}">${s.years[1]}</span>`
+    : `${s.label.startsWith("अक्टूबर") ? "<small>अक्टूबर </small>" : ""}<span class="count" data-from="${prevYear}" data-to="${s.years[0]}">${s.years[0]}</span>`;
+  prevYear = s.years[s.years.length - 1];
+
+  const portraits = s.pms.map(([, cfg]) => avatar(cfg)).join("");
+  const duo = s.pms.length > 1;
+  const isUp = s.tone === "rise";
+  const [bp, bg] = s.blame;
+  const bl = s.blameLabels || ["भारतीय राजनीति", "ग्लोबल / USA"];
+
+  el.innerHTML = `
+    <div class="node" aria-hidden="true"><span class="node-dot"></span><span class="node-year">${s.label}</span></div>
+    <div class="card">
+      <div class="card-head">
+        <span class="chip num">पड़ाव ${s.n}</span>
+        <span class="chip mood">${s.mood}</span>
+        ${s.cats.map(c => `<span class="chip cat-${c}">${CAT_LABEL[c]}</span>`).join("")}
+      </div>
+      <div class="year-big">${yearHtml}</div>
+      <h3>${s.title}</h3>
+
+      <div class="rate">
+        <div class="rate-main">
+          <span class="usd">1 USD =</span>
+          <span class="inr${s.plus ? " plus" : ""}">₹<span class="count" data-from="${s.from ?? 0}" data-to="${s.to}" data-dec="2">${s.to.toFixed(2)}</span></span>
+        </div>
+        <div class="rate-side">
+          ${s.from != null ? `<span class="from">पहले: <s>${fmt(s.from)}</s></span>` : `<span class="from">${s.ath ? "Current All-Time High" : "उस दौर का स्तर"}</span>`}
+          <span class="delta">${s.tone === "start" ? "🏁" : isUp ? ICON_UP : ICON_DOWN} ${pctText(s)}</span>
+        </div>
+      </div>
+
+      <div class="media${duo ? " duo" : ""}">
+        <figure class="portrait ${s.frame}" style="margin:0">
+          <span class="portrait-note">प्रतीकात्मक</span>
+          <div class="portrait-inner">${portraits}</div>
+          <figcaption class="nameplate">🇮🇳 ${s.pmName}</figcaption>
+        </figure>
+        <figure class="scene"><div class="scene-box">${SCENES[s.scene]}</div><figcaption>${s.caption}</figcaption></figure>
+      </div>
+
+      <p class="story">${s.story}</p>
+
+      <div class="verdict">
+        <span class="ico">${ICON_Q}</span>
+        <div style="flex:1;min-width:0">
+          <div class="q">राजनीतिक फैसला या ग्लोबल असर?</div>
+          <div class="a">${s.verdict}</div>
+          <div class="blame-bar" aria-hidden="true"><i class="p" data-w="${bp}"></i><i class="g" data-w="${bg}"></i></div>
+          <div class="blame-legend"><span>🏛️ ${bl[0]} ${bp}%</span><span>${bl[1]} ${bg}% 🌍</span></div>
+        </div>
+      </div>
+    </div>`;
+  timeline.appendChild(el);
+
+  const chip = document.createElement("button");
+  chip.type = "button";
+  chip.className = `year-chip tone-${s.tone}`;
+  chip.textContent = s.label;
+  chip.dataset.target = s.id;
+  chip.addEventListener("click", () => document.getElementById(s.id).scrollIntoView({ behavior: "smooth", block: "start" }));
+  rail.appendChild(chip);
+});
+
+/* =========================================================
+   5. COUNT-UP ANIMATION
+   ========================================================= */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ease = t => 1 - Math.pow(1 - t, 3);
+function countUp(el, dur = 1600) {
+  const from = parseFloat(el.dataset.from), to = parseFloat(el.dataset.to), dec = +(el.dataset.dec || 0);
+  if (reduceMotion) { el.textContent = to.toFixed(dec); return; }
+  const t0 = performance.now();
+  function frame(now) {
+    const t = Math.min(1, (now - t0) / dur);
+    el.textContent = (from + (to - from) * ease(t)).toFixed(dec);
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* =========================================================
+   6. SCROLL REVEAL + ACTIVE STOP
+   ========================================================= */
+const stops = [...document.querySelectorAll(".stop")];
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    el.classList.add("in");
+    el.querySelectorAll(".count").forEach(c => countUp(c));
+    el.querySelectorAll(".blame-bar i").forEach(b => b.style.width = b.dataset.w + "%");
+    revealObs.unobserve(el);
+  });
+}, { threshold: 0.18 });
+stops.forEach(s => revealObs.observe(s));
+
+const hudYr = document.getElementById("hudYr"), hudVal = document.getElementById("hudVal");
+const chips = [...rail.children];
+function setActive(idx) {
+  const s = STOPS[idx];
+  stops.forEach((el, i) => el.classList.toggle("active", i === idx));
+  chips.forEach((c, i) => c.classList.toggle("active", i === idx));
+  const chip = chips[idx];
+  if (chip) rail.scrollTo({ left: chip.offsetLeft - rail.clientWidth / 2 + chip.clientWidth / 2, behavior: "smooth" });
+  document.body.dataset.tone = s.tone;
+  hudYr.textContent = s.label;
+  hudVal.textContent = fmt(s.to) + (s.plus ? "+" : "");
+}
+const activeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) setActive(+e.target.dataset.index); });
+}, { rootMargin: "-45% 0px -50% 0px" });
+stops.forEach(s => activeObs.observe(s));
+
+document.querySelectorAll(".sum-card").forEach(c => {
+  const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { c.classList.add("in"); o.disconnect(); } }, { threshold: .2 });
+  o.observe(c);
+});
+
+/* progress bar, timeline fill, to-top */
+const progress = document.getElementById("progress");
+const fill = document.getElementById("timelineFill");
+const toTop = document.getElementById("toTop");
+let ticking = false;
+function onScroll() {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const h = document.documentElement;
+    const p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+    progress.style.transform = `scaleX(${p})`;
+    const r = timeline.getBoundingClientRect();
+    const f = Math.min(Math.max((innerHeight * 0.5 - r.top) / r.height, 0), 1);
+    fill.style.height = (f * r.height) + "px";
+    toTop.classList.toggle("show", h.scrollTop > innerHeight);
+    if (r.top > innerHeight * 0.5) { document.body.dataset.tone = "start"; }
+    ticking = false;
+  });
+}
+addEventListener("scroll", onScroll, { passive: true });
+addEventListener("resize", onScroll);
+toTop.addEventListener("click", () => scrollTo({ top: 0, behavior: "smooth" }));
+
+/* =========================================================
+   7. FILTERS
+   ========================================================= */
+const filterBtns = [...document.querySelectorAll(".filter-btn")];
+const emptyMsg = document.getElementById("emptyMsg");
+document.querySelector('[data-count="all"]').textContent = STOPS.length;
+["political", "global"].forEach(c => {
+  document.querySelector(`[data-count="${c}"]`).textContent = STOPS.filter(s => s.cats.includes(c)).length;
+});
+
+function layoutSides() {
+  let k = 0;
+  stops.forEach(el => {
+    if (el.hidden) return;
+    el.classList.toggle("side-right", k % 2 === 1);
+    k++;
+  });
+  emptyMsg.style.display = k ? "none" : "block";
+}
+layoutSides();
+
+function applyFilter(f) {
+  filterBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.filter === f)));
+  const match = el => f === "all" || el.dataset.cats.split(" ").includes(f);
+  stops.forEach(el => { if (!match(el) && !el.hidden) el.classList.add("leaving"); });
+  setTimeout(() => {
+    stops.forEach((el, i) => {
+      const m = match(el);
+      el.hidden = !m;
+      chips[i].hidden = !m;
+      el.classList.remove("leaving");
+      if (m && !el.classList.contains("in")) { /* will reveal via observer */ }
+    });
+    layoutSides();
+    // replay slide-in for visible cards
+    stops.forEach(el => {
+      if (el.hidden) return;
+      el.classList.remove("in");
+      void el.offsetWidth;
+      requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        if (r.top < innerHeight && r.bottom > 0) el.classList.add("in");
+        else revealObs.observe(el);
+      });
+    });
+    updateChartFilter(f);
+    const first = stops.find(el => !el.hidden);
+    const tl = document.getElementById("story");
+    if (tl.getBoundingClientRect().top < 0 && first) first.scrollIntoView({ behavior: "smooth", block: "start" });
+    onScroll();
+  }, reduceMotion ? 0 : 380);
+}
+filterBtns.forEach(b => b.addEventListener("click", () => applyFilter(b.dataset.filter)));
+
+/* =========================================================
+   8. OVERVIEW CHART
+   ========================================================= */
+const svg = document.getElementById("chart");
+const NS = "http://www.w3.org/2000/svg";
+const W = 900, H = 340, M = { l: 52, r: 24, t: 24, b: 40 };
+const X0 = 1945, X1 = 2028, Y1 = 100;
+const sx = y => M.l + (y - X0) / (X1 - X0) * (W - M.l - M.r);
+const sy = v => H - M.b - v / Y1 * (H - M.t - M.b);
+const TONE_COLOR = { start: "var(--gold)", fall: "var(--fall-2)", crash: "var(--fall)", rise: "var(--rise)" };
+
+const POINTS = [
+  { x: 1947, v: 3.30, stop: "s1947", tone: "start", label: "1947", note: "आजादी · पाउंड से बंधा" },
+  { x: 1949, v: 4.76, stop: "s1949", tone: "fall", label: "1949", note: "सोचा-समझा डीवैल्यूएशन" },
+  { x: 1966, v: 7.50, stop: "s1966", tone: "crash", label: "1966", note: "युद्ध + सूखा · 57% गिरावट", show: true },
+  { x: 1980, v: 7.86, stop: "s1973", tone: "fall", label: "1973–80", note: "ग्लोबल तेल संकट" },
+  { x: 1990.5, v: 17.50, stop: "s1991", tone: "fall", label: "1991 से पहले", note: "संकट से पहले" },
+  { x: 1991.5, v: 22.74, stop: "s1991", tone: "crash", label: "1991", note: "सोना गिरवी · उदारीकरण", show: true },
+  { x: 2000, v: 44.94, stop: "s2000", tone: "fall", label: "2000", note: "IT बूम की शुरुआत" },
+  { x: 2007, v: 39.40, stop: "s2000", tone: "rise", label: "2007", note: "रुपया मजबूत!", show: true },
+  { x: 2012.5, v: 45, stop: "s2013", tone: "fall", label: "2013 से पहले", note: "टेपर टेंट्रम से पहले" },
+  { x: 2013.6, v: 65, stop: "s2013", tone: "crash", label: "2013", note: "टेपर टेंट्रम · ₹65 पार", show: true },
+  { x: 2020, v: 76.38, stop: "s2020", tone: "fall", label: "2020", note: "कोरोना पैनिक" },
+  { x: 2024, v: 85.56, stop: "s2022", tone: "fall", label: "2022–24", note: "यूक्रेन युद्ध + US ब्याज दरें" },
+  { x: 2026.8, v: 96.33, stop: "s2026", tone: "crash", label: "अक्टूबर 2026", note: "ऑल-टाइम हाई", show: true }
+];
+const stopTone = Object.fromEntries(STOPS.map(s => [s.id, s.cats]));
+
+function el(tag, attrs, parent = svg) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  parent.appendChild(n);
+  return n;
+}
+// defs
+const defs = el("defs", {});
+const lg = el("linearGradient", { id: "areaGrad", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+el("stop", { offset: 0, "stop-color": "#ff4d2e", "stop-opacity": .28 }, lg);
+el("stop", { offset: 1, "stop-color": "#ff4d2e", "stop-opacity": 0 }, lg);
+// grid
+[0, 25, 50, 75, 100].forEach(v => {
+  el("line", { class: "gridline", x1: M.l, x2: W - M.r, y1: sy(v), y2: sy(v) });
+  const t = el("text", { class: "axis-text", x: M.l - 10, y: sy(v) + 4, "text-anchor": "end" }); t.textContent = "₹" + v;
+});
+[1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020].forEach(y => {
+  const t = el("text", { class: "axis-text", x: sx(y), y: H - M.b + 22, "text-anchor": "middle" }); t.textContent = y;
+});
+// area + line
+const dPts = POINTS.map(p => `${sx(p.x).toFixed(1)},${sy(p.v).toFixed(1)}`);
+el("path", { class: "area", d: `M${sx(POINTS[0].x)},${sy(0)} L${dPts.join(" L")} L${sx(POINTS.at(-1).x)},${sy(0)} Z`, fill: "url(#areaGrad)" });
+const line = el("path", { class: "line", d: "M" + dPts.join(" L") });
+const xhair = el("line", { class: "xhair", y1: M.t, y2: H - M.b });
+// points
+const ptEls = [], lblEls = [];
+POINTS.forEach((p, i) => {
+  const c = el("circle", { class: "pt", cx: sx(p.x), cy: sy(p.v), r: p.show ? 6 : 4.5, fill: TONE_COLOR[p.tone] });
+  c.dataset.stop = p.stop;
+  ptEls.push(c);
+  if (p.show) {
+    const right = p.x > 2020;
+    const t = el("text", { class: "pt-label", x: sx(p.x) + (right ? -10 : 0), y: sy(p.v) - 14, "text-anchor": right ? "end" : "middle" });
+    t.textContent = "₹" + p.v.toFixed(2);
+    t.dataset.stop = p.stop;
+    lblEls.push(t);
+  }
+});
+// hit targets (larger than marks)
+const tooltip = document.getElementById("tooltip");
+const wrapEl = document.getElementById("chartWrap");
+POINTS.forEach((p, i) => {
+  const h = el("circle", { class: "hit", cx: sx(p.x), cy: sy(p.v), r: 16, tabindex: 0, role: "button", "aria-label": `${p.label}: 1 डॉलर = ₹${p.v.toFixed(2)}` });
+  const show = () => {
+    const box = svg.getBoundingClientRect(), k = box.width / W;
+    tooltip.innerHTML = `<div class="t-yr">${p.label}</div><div class="t-val">$1 = ₹${p.v.toFixed(2)}</div><div class="t-tag"><i style="background:${TONE_COLOR[p.tone]}"></i>${p.note}</div>`;
+    let left = sx(p.x) * k;
+    left = Math.min(Math.max(left, 100), box.width - 100);
+    tooltip.style.left = left + "px";
+    tooltip.style.top = (sy(p.v) * k - 8) + "px";
+    tooltip.style.opacity = 1;
+    xhair.setAttribute("x1", sx(p.x)); xhair.setAttribute("x2", sx(p.x)); xhair.style.opacity = 1;
+    ptEls[i].setAttribute("r", 8);
+  };
+  const hide = () => { tooltip.style.opacity = 0; xhair.style.opacity = 0; ptEls[i].setAttribute("r", p.show ? 6 : 4.5); };
+  h.addEventListener("mouseenter", show); h.addEventListener("focus", show);
+  h.addEventListener("mouseleave", hide); h.addEventListener("blur", hide);
+  const go = () => { const t = document.getElementById(p.stop); if (!t.hidden) t.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  h.addEventListener("click", go);
+  h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+});
+// draw-on animation when visible
+const len = line.getTotalLength();
+line.style.strokeDasharray = len; line.style.strokeDashoffset = reduceMotion ? 0 : len;
+ptEls.concat(lblEls).forEach(n => n.style.opacity = reduceMotion ? 1 : 0);
+new IntersectionObserver(([e], o) => {
+  if (!e.isIntersecting) return;
+  line.style.transition = "stroke-dashoffset 2.4s cubic-bezier(.4,.1,.2,1)";
+  line.style.strokeDashoffset = 0;
+  ptEls.forEach((n, i) => setTimeout(() => n.style.opacity = "", 200 + i * 170));
+  lblEls.forEach((n, i) => setTimeout(() => n.style.opacity = "", 900 + i * 260));
+  o.disconnect();
+}, { threshold: .35 }).observe(svg);
+
+function updateChartFilter(f) {
+  const on = id => f === "all" || stopTone[id].includes(f);
+  ptEls.forEach(n => n.classList.toggle("dim", !on(n.dataset.stop)));
+  lblEls.forEach(n => n.classList.toggle("dim", !on(n.dataset.stop)));
+}
+
+/* =========================================================
+   9. HERO COUNTER + FLOATERS
+   ========================================================= */
+const heroVal = document.getElementById("heroVal"), heroYr = document.getElementById("heroYr");
+function heroCount() {
+  const pts = POINTS.filter((p, i) => i === 0 || p.x !== POINTS[i - 1].x);
+  const dur = 3600, t0 = performance.now();
+  const yA = pts[0].x, yB = pts.at(-1).x;
+  function interp(year) {
+    for (let i = 1; i < pts.length; i++) {
+      if (year <= pts[i].x) {
+        const a = pts[i - 1], b = pts[i], t = (year - a.x) / (b.x - a.x);
+        return a.v + (b.v - a.v) * t;
+      }
+    }
+    return pts.at(-1).v;
+  }
+  function frame(now) {
+    const t = Math.min(1, (now - t0) / dur);
+    const yr = yA + (yB - yA) * ease(t);
+    const v = interp(yr);
+    heroVal.textContent = "₹" + v.toFixed(2);
+    heroYr.textContent = "साल " + Math.floor(yr);
+    heroVal.classList.toggle("hot", v > 60);
+    if (t < 1) requestAnimationFrame(frame);
+    else { heroVal.textContent = "₹96.33"; heroYr.textContent = "अक्टूबर 2026 · ऑल-टाइम हाई"; }
+  }
+  if (reduceMotion) { heroVal.textContent = "₹96.33"; heroVal.classList.add("hot"); heroYr.textContent = "अक्टूबर 2026 · ऑल-टाइम हाई"; }
+  else setTimeout(() => requestAnimationFrame(frame), 700);
+}
+heroCount();
+
+const floaters = document.getElementById("floaters");
+if (!reduceMotion) {
+  for (let i = 0; i < 18; i++) {
+    const sp = document.createElement("span");
+    sp.textContent = i % 3 === 0 ? "$" : "₹";
+    sp.style.left = (Math.random() * 100) + "%";
+    sp.style.fontSize = (24 + Math.random() * 60) + "px";
+    sp.style.animationDuration = (16 + Math.random() * 18) + "s";
+    sp.style.animationDelay = (-Math.random() * 30) + "s";
+    floaters.appendChild(sp);
+  }
+}
+
+/* =========================================================
+   10. THEME TOGGLE
+   ========================================================= */
+const root = document.documentElement;
+const themeIcon = document.getElementById("themeIcon"), themeLabel = document.getElementById("themeLabel");
+function currentTheme() {
+  return root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+}
+function paintToggle() {
+  const t = currentTheme();
+  themeIcon.textContent = t === "dark" ? "☀️" : "🌙";
+  themeLabel.textContent = t === "dark" ? "लाइट मोड" : "डार्क मोड";
+}
+try { const saved = localStorage.getItem("rupee-theme"); if (saved) root.dataset.theme = saved; } catch (e) {}
+paintToggle();
+document.getElementById("themeToggle").addEventListener("click", () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  root.dataset.theme = next;
+  try { localStorage.setItem("rupee-theme", next); } catch (e) {}
+  paintToggle();
+});
+
+onScroll();
+})();
+</script>
+</body>
+</html>
